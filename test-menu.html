@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Restaurant Menu</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .menu-container { max-width: 800px; margin: 0 auto; }
+        .menu-item { border: 1px solid #ddd; margin: 10px 0; padding: 15px; border-radius: 8px; }
+        .item-image { width: 100px; height: 100px; object-fit: cover; float: left; margin-right: 15px; }
+        .item-name { font-size: 18px; font-weight: bold; color: #333; }
+        .item-description { color: #666; margin: 5px 0; }
+        .item-price { font-size: 16px; font-weight: bold; color: #e74c3c; }
+    </style>
+</head>
+<body>
+    <div class="menu-container">
+        <h1>Test Restaurant Menu - Çoklu Kategori</h1>
+
+        <div class="menu-item">
+            <img src="https://via.placeholder.com/100x100/ff6b6b/ffffff?text=Pizza" alt="Pizza" class="item-image">
+            <div class="item-name">Margherita Pizza</div>
+            <div class="item-description">Domates sosu, mozzarella peyniri, taze fesleğen</div>
+            <div class="item-price">45.00 TL</div>
+        </div>
+
+        <!-- Background image örneği -->
+        <div class="menu-item">
+            <div class="item-image-bg" style="background-image: url(https://via.placeholder.com/100x100/4ecdc4/ffffff?text=Burger); width: 100px; height: 100px; background-size: cover; background-position: center; float: left; margin-right: 15px;"></div>
+            <div class="item-name">Cheeseburger (Background Image)</div>
+            <div class="item-description">Sığır eti, cheddar peyniri, marul, domates, soğan</div>
+            <div class="item-price">38.50 TL</div>
+        </div>
+
+        <div class="menu-item">
+            <img src="https://via.placeholder.com/100x100/45b7d1/ffffff?text=Pasta" alt="Pasta" class="item-image">
+            <div class="item-name">Spaghetti Carbonara</div>
+            <div class="item-description">Krema, parmesan peyniri, pastırma, yumurta</div>
+            <div class="item-price">42.00 TL</div>
+        </div>
+
+        <div class="menu-item">
+            <img src="https://via.placeholder.com/100x100/96ceb4/ffffff?text=Salad" alt="Salad" class="item-image">
+            <div class="item-name">Caesar Salata</div>
+            <div class="item-description">Marul, parmesan, kruton, caesar sos</div>
+            <div class="item-price">28.00 TL</div>
+        </div>
+
+        <div class="menu-item">
+            <img src="https://via.placeholder.com/100x100/feca57/ffffff?text=Drink" alt="Drink" class="item-image">
+            <div class="item-name">Taze Portakal Suyu</div>
+            <div class="item-description">Günlük sıkılmış taze portakal suyu</div>
+            <div class="item-price">15.00 TL</div>
+        </div>
+
+        <!-- Sizin örneğinize benzer yapı -->
+        <li class="vertical-menu-list__item bg-orange-light container-shadowed-2 aramaalan menu-item">
+            <div class="row">
+                <div class="col-4 pe-1">
+                    <div class="food-background">
+                        <div class="item-image-complex" style="background-image:url(https://via.placeholder.com/200x150/ff9ff3/ffffff?text=Kahvalti);height:90%;width:90%;background-size:cover;background-position:center;">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <h6 class="item-name">Kahvaltı Tabağı</h6>
+                    <p class="item-description">Haşlanmış yumurta,tereyağı, yoğurt, ezme, lor peyn..</p>
+                    <span class="text-orange float-start mt-2 me-2 item-price">340TL</span>
+                </div>
+            </div>
+        </li>
+    </div>
+</body>
+</html>

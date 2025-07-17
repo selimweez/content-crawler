@@ -1,0 +1,22 @@
+{
+    "name": "content-crawler/menu-scraper",
+    "description": "A PHP content crawler for scraping menu data from websites",
+    "type": "project",
+    "require": {
+        "php": ">=7.4",
+        "guzzlehttp/guzzle": "^7.0",
+        "symfony/dom-crawler": "^6.0",
+        "symfony/css-selector": "^6.0",
+        "phpoffice/phpspreadsheet": "^1.29"
+    },
+    "autoload": {
+        "psr-4": {
+            "ContentCrawler\\": "src/"
+        }
+    },
+    "scripts": {
+        "start": "php -S localhost:8000"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

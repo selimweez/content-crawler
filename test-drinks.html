@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Drinks Menu</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #e8f5e8; }
+        .menu-container { max-width: 800px; margin: 0 auto; }
+        .menu-item { border: 1px solid #ddd; margin: 10px 0; padding: 15px; border-radius: 8px; background: white; }
+        .item-image { width: 100px; height: 100px; object-fit: cover; float: left; margin-right: 15px; }
+        .item-name { font-size: 18px; font-weight: bold; color: #27ae60; }
+        .item-description { color: #666; margin: 5px 0; }
+        .item-price { font-size: 16px; font-weight: bold; color: #e74c3c; }
+    </style>
+</head>
+<body>
+    <div class="menu-container">
+        <h1>Test Drinks Menu</h1>
+        
+        <li class="vertical-menu-list__item bg-orange-light container-shadowed-2 aramaalan menu-item">
+            <div class="row">
+                <div class="col-4 pe-1">
+                    <div class="food-background">
+                        <div class="item-image-complex" style="background-image:url(https://via.placeholder.com/200x150/2ecc71/ffffff?text=Coffee);height:90%;width:90%;background-size:cover;background-position:center;">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <h6 class="item-name">Türk Kahvesi</h6>
+                    <p class="item-description">Geleneksel Türk kahvesi, şekerli</p>
+                    <span class="text-orange float-start mt-2 me-2 item-price">18TL</span>
+                </div>
+            </div>
+        </li>
+        
+        <div class="menu-item">
+            <img src="https://via.placeholder.com/100x100/3498db/ffffff?text=Latte" alt="Latte" class="item-image">
+            <div class="item-name">Caffe Latte</div>
+            <div class="item-description">Espresso ve buharda ısıtılmış süt</div>
+            <div class="item-price">32.00 TL</div>
+        </div>
+        
+        <div class="menu-item">
+            <div class="item-image-bg" style="background-image: url(https://via.placeholder.com/100x100/e74c3c/ffffff?text=Tea); width: 100px; height: 100px; background-size: cover; background-position: center; float: left; margin-right: 15px;"></div>
+            <div class="item-name">Earl Grey Çayı</div>
+            <div class="item-description">Bergamot aromalı siyah çay</div>
+            <div class="item-price">22.00 TL</div>
+        </div>
+        
+        <div class="menu-item">
+            <img src="https://via.placeholder.com/100x100/f39c12/ffffff?text=Juice" alt="Orange Juice" class="item-image">
+            <div class="item-name">Taze Portakal Suyu</div>
+            <div class="item-description">Günlük sıkılmış taze portakal suyu</div>
+            <div class="item-price">28.00 TL</div>
+        </div>
+    </div>
+</body>
+</html>
