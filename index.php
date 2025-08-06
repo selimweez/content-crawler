@@ -98,9 +98,123 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             exit;
 
+        case 'discover_categories':
+            $menuUrl = $_POST['menu_url'] ?? '';
+
+            if (empty($menuUrl)) {
+                echo json_encode(['success' => false, 'error' => 'Menu URL gerekli']);
+                exit;
+            }
+
+            $result = $crawler->discoverNotifyBeeCategories($menuUrl);
+            echo json_encode($result);
+            exit;
+
+        case 'crawl_with_categories':
+            $menuUrl = $_POST['menu_url'] ?? '';
+            $selectors = [
+                'container' => $_POST['container_selector'] ?? '',
+                'item' => $_POST['item_selector'] ?? '',
+                'name' => $_POST['name_selector'] ?? '',
+                'description' => $_POST['description_selector'] ?? '',
+                'price' => $_POST['price_selector'] ?? '',
+                'image' => $_POST['image_selector'] ?? ''
+            ];
+
+            if (empty($menuUrl)) {
+                echo json_encode(['success' => false, 'error' => 'Menu URL gerekli']);
+                exit;
+            }
+
+            $result = $crawler->crawlNotifyBeeMenuWithCategories($menuUrl, $selectors);
+
+            if ($result['success']) {
+                // Initialize session array if not exists
+                if (!isset($_SESSION['last_crawl_data'])) {
+                    $_SESSION['last_crawl_data'] = [];
+                }
+
+                // Append to existing data instead of replacing
+                $_SESSION['last_crawl_data'] = array_merge($_SESSION['last_crawl_data'], $result['data']);
+            }
+
+            echo json_encode($result);
+            exit;
+
+        case 'download_category_images':
+            $menuUrl = $_POST['menu_url'] ?? '';
+
+            if (empty($menuUrl)) {
+                echo json_encode(['success' => false, 'error' => 'Menu URL gerekli']);
+                exit;
+            }
+
+            // Kategorileri keşfet (resimlerle birlikte)
+            $categoryResult = $crawler->discoverNotifyBeeCategories($menuUrl, true);
+
+            if (!$categoryResult['success']) {
+                echo json_encode($categoryResult);
+                exit;
+            }
+
+            // Kategori resimlerini indir ve ZIP oluştur
+            $downloadResult = $crawler->downloadCategoryImages($categoryResult['categories']);
+
+            if ($downloadResult['success']) {
+                // ZIP dosya bilgilerini session'a kaydet
+                $_SESSION['last_zip_download'] = $downloadResult;
+
+                echo json_encode([
+                    'success' => true,
+                    'message' => $downloadResult['downloaded_count'] . ' kategori resmi indirildi',
+                    'zip_filename' => $downloadResult['zip_filename'],
+                    'downloaded_count' => $downloadResult['downloaded_count'],
+                    'total_count' => $downloadResult['total_count'],
+                    'zip_size' => round($downloadResult['zip_size'] / 1024, 2) . ' KB'
+                ]);
+            } else {
+                echo json_encode($downloadResult);
+            }
+            exit;
+
+        case 'download_zip':
+            if (!isset($_SESSION['last_zip_download'])) {
+                http_response_code(404);
+                echo 'ZIP dosyası bulunamadı';
+                exit;
+            }
+
+            $zipInfo = $_SESSION['last_zip_download'];
+            $zipPath = $zipInfo['zip_path'];
+
+            if (!file_exists($zipPath)) {
+                http_response_code(404);
+                echo 'ZIP dosyası bulunamadı';
+                exit;
+            }
+
+            // ZIP dosyasını indir
+            header('Content-Type: application/zip');
+            header('Content-Disposition: attachment; filename="' . $zipInfo['zip_filename'] . '"');
+            header('Content-Length: ' . filesize($zipPath));
+            readfile($zipPath);
+
+            // ZIP dosyasını sil (temizlik)
+            unlink($zipPath);
+            unset($_SESSION['last_zip_download']);
+            exit;
+
         case 'clear_session':
             // Clear previous crawl data
             $_SESSION['last_crawl_data'] = [];
+            if (isset($_SESSION['last_zip_download'])) {
+                // Eski ZIP dosyasını sil
+                $zipPath = $_SESSION['last_zip_download']['zip_path'];
+                if (file_exists($zipPath)) {
+                    unlink($zipPath);
+                }
+                unset($_SESSION['last_zip_download']);
+            }
             echo json_encode(['success' => true]);
             exit;
     }
@@ -166,8 +280,38 @@ if (isset($_GET['download']) && isset($_SESSION['export_data'])) {
                     </div>
                     <div class="card-body">
                         <form id="crawlerForm">
+                            <!-- NotifyBee Otomatik Keşif -->
                             <div class="mb-3">
-                                <label class="form-label">Website URL'leri ve Kategoriler</label>
+                                <div class="card border-info">
+                                    <div class="card-header bg-info text-white">
+                                        <h6 class="mb-0"><i class="fas fa-magic"></i> NotifyBee Otomatik Keşif</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-2">
+                                            <label class="form-label">NotifyBee Menu URL'si</label>
+                                            <input type="url" class="form-control" id="notifyBeeMenuUrl"
+                                                   placeholder="https://notifybee.com.tr/menu?id=401">
+                                        </div>
+                                        <div class="d-grid gap-2">
+                                            <button type="button" class="btn btn-info btn-sm" id="discoverCategoriesBtn">
+                                                <i class="fas fa-search"></i> Kategorileri Keşfet
+                                                <span class="loading spinner-border spinner-border-sm ms-2"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-success btn-sm" id="crawlWithCategoriesBtn">
+                                                <i class="fas fa-magic"></i> Otomatik Crawl (Tüm Kategoriler)
+                                                <span class="loading spinner-border spinner-border-sm ms-2"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-warning btn-sm" id="downloadCategoryImagesBtn">
+                                                <i class="fas fa-images"></i> Kategori Resimlerini İndir (ZIP)
+                                                <span class="loading spinner-border spinner-border-sm ms-2"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Manuel URL'ler ve Kategoriler</label>
                                 <div id="urlContainer">
                                     <div class="url-group mb-2">
                                         <div class="row">

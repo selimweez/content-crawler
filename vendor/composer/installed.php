@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'content-crawler/menu-scraper',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => null,
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '44e15ec9dd9a9c847bf87b8656d9e989796a3fe4',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -20,9 +20,9 @@
             'dev_requirement' => false,
         ),
         'content-crawler/menu-scraper' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => null,
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '44e15ec9dd9a9c847bf87b8656d9e989796a3fe4',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
